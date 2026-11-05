@@ -383,6 +383,71 @@ summary {
   object-fit:contain;
   background:white;
 }
+.presentation-still {
+  grid-column: 1 / -1;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+.presentation-still > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px clamp(16px, 3vw, 28px);
+  border-radius: 8px;
+  list-style: none;
+  font-size: 15px;
+  font-weight: 600;
+}
+.presentation-still > summary::-webkit-details-marker { display: none; }
+.presentation-still > summary:hover { background: #f0e9f7; }
+.presentation-toggle {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--accent);
+  font-size: 22px;
+  font-weight: 400;
+}
+.presentation-still[open] .presentation-toggle { transform: rotate(45deg); }
+.presentation-still-content {
+  max-width: 1008px;
+  margin-inline: auto;
+  padding: 8px clamp(12px, 3vw, 24px) 20px;
+}
+.presentation-still img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.presentation-still-content p {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+.presentation-still-content a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .presentation-toggle { transition: transform 220ms ease; }
+  .presentation-still[open] .presentation-still-content {
+    animation: presentation-enter 320ms ease-out both;
+  }
+}
+@keyframes presentation-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 .project-topline {
   display:flex;
   gap:16px;
@@ -828,65 +893,6 @@ summary {
   .experience-stack { padding: 20px; }
 }
 
-/* Presentation panel spans the project card instead of squeezing the text column. */
-.project { row-gap: 28px; }
-.presentation-video {
-  grid-column: 1 / -1;
-  min-width: 0;
-  margin: 0;
-  color: var(--ink);
-  border: 1px solid #d0d0c5;
-  border-radius: 8px;
-  background: var(--paper);
-  overflow: clip;
-}
-.presentation-video > summary {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  padding: 22px 28px;
-  list-style: none;
-}
-.presentation-video > summary::-webkit-details-marker { display: none; }
-.presentation-video > summary:hover { background: #f2f0ec; }
-.video-heading { display: flex; align-items: center; gap: 18px; min-width: 0; }
-.video-play {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  padding-left: 3px;
-  border: 1px solid #c7bbb8;
-  border-radius: 50%;
-  color: var(--accent);
-  background: #fbe9e6;
-  font-size: 13px;
-}
-.video-kicker { display: block; font-size: 9px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 5px; }
-.video-title { display: block; font-size: 16px; font-weight: 600; letter-spacing: -.03em; line-height: 1.5; }
-.video-meta { display: flex; align-items: center; gap: 24px; flex-shrink: 0; font-size: 12px; color: var(--muted); }
-.video-chevron { font-size: 24px; color: var(--ink); line-height: 1; }
-.presentation-video[open] .video-chevron { transform: rotate(180deg); }
-.presentation-video[open] > summary { border-bottom: 1px solid var(--line); }
-.video-panel { padding: 28px 32px 12px; }
-.video-stage { max-width: 960px; margin-inline: auto; background: #161616; border-radius: 4px; overflow: hidden; }
-.presentation-video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #161616; }
-.video-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 20px; max-width: 960px; margin: 12px auto 0; color: var(--muted); font-size: 11px; line-height: 1.8; }
-.video-footer .text-link { font-size: 11px; font-weight: 400; }
-.video-error { font-size: 13px; line-height: 1.8; padding: 16px; background: var(--paper); }
-@media (max-width: 680px) {
-  .presentation-video > summary { padding: 18px 16px; gap: 10px; }
-  .video-heading { gap: 12px; }
-  .video-play { width: 34px; height: 34px; font-size: 11px; }
-  .video-kicker { font-size: 8px; letter-spacing: 1px; }
-  .video-title { font-size: 13px; }
-  .video-meta { gap: 10px; font-size: 10px; }
-  .video-panel { padding: 12px 12px 6px; }
-  .video-footer { margin-top: 8px; }
-}
-
 /* Preserve the original typing and scroll choreography within a responsive stage. */
 .hero {
   --hero-progress: 0;
@@ -1008,9 +1014,6 @@ summary {
 .gallery-controls button:hover { background: #d9cde7; }
 .project, .career-project, .learning-archive { border-top-color: #d5cadd; }
 .tags li, .subsystems li { border-color: #d2c6de; }
-.presentation-video { border-color: #d5cadd; }
-.presentation-video > summary:hover { background: #f0e9f7; }
-.video-play { border-color: #d3bedb; color: #77518b; background: #eee2f5; }
 .contact { background: linear-gradient(135deg, #e6dcf4, #cfc1ec); }
 
 /* Give each skill category its own space below work and education history. */

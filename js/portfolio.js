@@ -36,28 +36,6 @@ document.querySelectorAll('.gallery').forEach((gallery) => {
   surface.addEventListener('pointercancel', () => { start = null; });
 });
 
-// Only one presentation should play at a time, including when its archive closes.
-const presentationVideos = Array.from(document.querySelectorAll('.presentation-video video'));
-presentationVideos.forEach((video) => {
-  video.addEventListener('play', () => {
-    presentationVideos.forEach((other) => { if (other !== video) other.pause(); });
-  });
-  video.addEventListener('error', () => {
-    const details = video.closest('.presentation-video');
-    if (details.querySelector('.video-error')) return;
-    const message = document.createElement('p');
-    message.className = 'video-error';
-    message.setAttribute('role', 'status');
-    message.textContent = '영상을 불러오지 못했습니다. 아래 링크로 영상 파일을 직접 열어 주세요.';
-    video.after(message);
-  });
-});
-document.querySelectorAll('.presentation-video, .learning-archive').forEach((details) => {
-  details.addEventListener('toggle', () => {
-    if (!details.open) details.querySelectorAll('video').forEach((video) => video.pause());
-  });
-});
-
 // Normalize the original scroll effect to the hero's available scroll distance.
 // Native scrolling remains in charge on touch devices and anchor navigation.
 (() => {
